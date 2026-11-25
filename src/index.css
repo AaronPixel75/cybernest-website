@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --cn-purple: #4C138E;
+    --cn-charcoal: #1A1A1A;
+    --cn-gold: #F5B800;
+    --cn-white: #FFFFFF;
+    --cn-wood: #8D5B38;
+    --cn-cream: #F2EBDD;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-reveal: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #1A1A1A;
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    background-color: #1A1A1A;
+    color: #F2EBDD;
+    overflow-x: clip;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.font-display {
+  font-family: "Bricolage Grotesque", sans-serif;
+}
+
+.font-body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.font-mono-tabular {
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.paper-grain {
+  background-image: radial-gradient(rgba(26, 26, 26, 0.045) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.dark-grid-texture {
+  background-image:
+    linear-gradient(to right, rgba(242, 235, 221, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242, 235, 221, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* MotionSites Blur-Rise & Masked Line Choreography */
+@keyframes cnBlurRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes cnMaskUp {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.cn-blur-rise {
+  animation: cnBlurRise 1.05s var(--ease-out-expo) var(--d, 0ms) both;
+}
+
+.cn-mask-line {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0.08em 0.1em;
+  margin: -0.04em -0.08em -0.1em;
+}
+
+.cn-mask-line > span {
+  display: block;
+  animation: cnMaskUp 0.9s var(--ease-out-quint) var(--d, 120ms) both;
+}
+
+/* MotionSites Left-to-Right Nav Underline */
+.nav-link-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s var(--ease-out-expo);
+}
+
+.nav-link-line:hover::after,
+.nav-link-line[data-active="true"]::after {
+  transform: scaleX(1);
+}
+
+/* MotionSites Rolling Label Button */
+.btn-roll-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.btn-roll-wrap > span {
+  display: block;
+  transition: transform 0.45s var(--ease-out-expo);
+}
+
+.btn-roll-wrap > span:last-child {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+.group:hover .btn-roll-wrap > span:first-child {
+  transform: translateY(-100%);
+}
+
+.group:hover .btn-roll-wrap > span:last-child {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-blur-rise,
+  .cn-mask-line > span {
+    animation: none !important;
+  }
+  .group:hover .btn-roll-wrap > span {
+    transform: none !important;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
